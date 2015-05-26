@@ -98,7 +98,7 @@ angular.module('ionic-timepicker', ['ionic', 'ionic-timepicker.templates'])
 
             $ionicPopup.show({
               templateUrl: 'time-picker-12-hour.html',
-              title: "<strong>{{'TITLE_SELECT_TIME'|translate}}</strong>",
+              title: '<strong translate="TITLE_SELECT_TIME"></strong>',
               subTitle: '',
               scope: scope,
               buttons: [
@@ -138,7 +138,7 @@ angular.module('ionic-timepicker', ['ionic', 'ionic-timepicker.templates'])
 
             $ionicPopup.show({
               templateUrl: 'time-picker-24-hour.html',
-              title: "<strong>{{'TITLE_SELECT_TIME'|translate}}</strong>",
+              title: '<strong translate="TITLE_SELECT_TIME"></strong>',
               subTitle: '',
               scope: scope,
               buttons: [
