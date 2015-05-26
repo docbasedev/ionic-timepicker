@@ -21,7 +21,8 @@ angular.module('ionic-timepicker', ['ionic', 'ionic-timepicker.templates', 'pasc
 
           scope.time = {hours: 0, minutes: 0, meridian: ""};
 
-          var objDate = new Date(obj.epochTime * 1000);       // Epoch time in milliseconds.
+          var tzOffset = (new Date()).getTimezoneOffset() * 60 * 1000;
+          var objDate = new Date(obj.epochTime * 1000 - tzOffset);       // Epoch time in milliseconds.
 
           scope.increaseHours = function () {
             scope.time.hours = Number(scope.time.hours);
@@ -84,9 +85,9 @@ angular.module('ionic-timepicker', ['ionic', 'ionic-timepicker.templates', 'pasc
 
           if (obj.format == 12) {
 
-            scope.time.meridian = (objDate.getHours() >= 12) ? "PM" : "AM";
-            scope.time.hours = (objDate.getHours() > 12) ? ((objDate.getHours() - 12)) : (objDate.getHours());
-            scope.time.minutes = (objDate.getMinutes());
+            scope.time.meridian = (objDate.getUTCHours() >= 12) ? "PM" : "AM";
+            scope.time.hours = (objDate.getUTCHours() > 12) ? ((objDate.getUTCHours() - 12)) : (objDate.getUTCHours());
+            scope.time.minutes = (objDate.getUTCMinutes());
 
             if (scope.time.hours == 0 && scope.time.meridian == "AM") {
               scope.time.hours = 12;
@@ -124,7 +125,7 @@ angular.module('ionic-timepicker', ['ionic', 'ionic-timepicker.templates', 'pasc
                       } else if (scope.time.meridian === "PM") {
                         totalSec += 43200;
                       }
-                      scope.etime = totalSec;
+                      scope.etime = totalSec + tzOffset / 1000;
                     }
                   }
                 ]
@@ -135,8 +136,8 @@ angular.module('ionic-timepicker', ['ionic', 'ionic-timepicker.templates', 'pasc
 
           if (obj.format == 24) {
 
-            scope.time.hours = (objDate.getHours());
-            scope.time.minutes = (objDate.getMinutes());
+            scope.time.hours = (objDate.getUTCHours());
+            scope.time.minutes = (objDate.getUTCMinutes());
 
             $translate('TITLE_SELECT_TIME').then(function(trans) {
               $ionicPopup.show({
@@ -160,7 +161,7 @@ angular.module('ionic-timepicker', ['ionic', 'ionic-timepicker.templates', 'pasc
                       } else {
                         totalSec = scope.time.minutes * 60;
                       }
-                      scope.etime = totalSec;
+                      scope.etime = totalSec + tzOffset / 1000;
                     }
                   }
                 ]
