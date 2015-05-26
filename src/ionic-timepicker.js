@@ -11,7 +11,8 @@ angular.module('ionic-timepicker', ['ionic', 'ionic-timepicker.templates'])
       scope: {
         etime: '=etime',        //epoch time getting from a template
         format: '=format',      //format getting from a template
-        step: '=step'           //step getting from a template
+        step: '=step',          //step getting from a template
+        title: '='
       },
       link: function (scope, element, attrs) {
 
@@ -96,40 +97,38 @@ angular.module('ionic-timepicker', ['ionic', 'ionic-timepicker.templates'])
               scope.time.meridian = (scope.time.meridian === "AM") ? "PM" : "AM";
             };
 
-            $translate('TITLE_SELECT_TIME').then(function(trans) {
-              $ionicPopup.show({
-                templateUrl: 'time-picker-12-hour.html',
-                title: '<strong>' + trans +  '</strong>',
-                subTitle: '',
-                scope: scope,
-                buttons: [
-                  {text: 'Close'},
-                  {
-                    text: 'Set',
-                    type: 'button-positive',
-                    onTap: function (e) {
+            $ionicPopup.show({
+              templateUrl: 'time-picker-12-hour.html',
+              title: '<strong>' + scope.title +  '</strong>',
+              subTitle: '',
+              scope: scope,
+              buttons: [
+                {text: 'Close'},
+                {
+                  text: 'Set',
+                  type: 'button-positive',
+                  onTap: function (e) {
 
-                      scope.loadingContent = true;
+                    scope.loadingContent = true;
 
-                      var totalSec = 0;
+                    var totalSec = 0;
 
-                      if (scope.time.hours != 12) {
-                        totalSec = (scope.time.hours * 60 * 60) + (scope.time.minutes * 60);
-                      } else {
-                        totalSec = scope.time.minutes * 60;
-                      }
-
-                      if (scope.time.meridian === "AM") {
-                        totalSec += 0;
-                      } else if (scope.time.meridian === "PM") {
-                        totalSec += 43200;
-                      }
-                      scope.etime = totalSec;
+                    if (scope.time.hours != 12) {
+                      totalSec = (scope.time.hours * 60 * 60) + (scope.time.minutes * 60);
+                    } else {
+                      totalSec = scope.time.minutes * 60;
                     }
+
+                    if (scope.time.meridian === "AM") {
+                      totalSec += 0;
+                    } else if (scope.time.meridian === "PM") {
+                      totalSec += 43200;
+                    }
+                    scope.etime = totalSec;
                   }
-                ]
-              })
-            });
+                }
+              ]
+            })
 
           }
 
@@ -138,34 +137,32 @@ angular.module('ionic-timepicker', ['ionic', 'ionic-timepicker.templates'])
             scope.time.hours = (objDate.getUTCHours());
             scope.time.minutes = (objDate.getUTCMinutes());
 
-            $translate('TITLE_SELECT_TIME').then(function(trans) {
-              $ionicPopup.show({
-                templateUrl: 'time-picker-24-hour.html',
-                title: '<strong>' + trans +  '</strong>',
-                subTitle: '',
-                scope: scope,
-                buttons: [
-                  {text: 'Close'},
-                  {
-                    text: 'Set',
-                    type: 'button-positive',
-                    onTap: function (e) {
+            $ionicPopup.show({
+              templateUrl: 'time-picker-24-hour.html',
+              title: '<strong>' + scope.title +  '</strong>',
+              subTitle: '',
+              scope: scope,
+              buttons: [
+                {text: 'Close'},
+                {
+                  text: 'Set',
+                  type: 'button-positive',
+                  onTap: function (e) {
 
-                      scope.loadingContent = true;
+                    scope.loadingContent = true;
 
-                      var totalSec = 0;
+                    var totalSec = 0;
 
-                      if (scope.time.hours != 24) {
-                        totalSec = (scope.time.hours * 60 * 60) + (scope.time.minutes * 60);
-                      } else {
-                        totalSec = scope.time.minutes * 60;
-                      }
-                      scope.etime = totalSec;
+                    if (scope.time.hours != 24) {
+                      totalSec = (scope.time.hours * 60 * 60) + (scope.time.minutes * 60);
+                    } else {
+                      totalSec = scope.time.minutes * 60;
                     }
+                    scope.etime = totalSec;
                   }
-                ]
-              })
-            });
+                }
+              ]
+            })
 
           }
 
